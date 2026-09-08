@@ -1,6 +1,6 @@
 # Matriz de paridade
 
-Todos os itens abaixo estão **não implementados / não testados** no Armador Brasil neste primeiro registro. O estado de evidência indica somente o conhecimento da referência.
+Todos os itens abaixo estão **não implementados / não testados** no Armador Brasil nesta etapa de descoberta. O estado de evidência indica somente o conhecimento da referência.
 
 - **Observado:** tela ou sequência visível; não implica que todos os casos e variantes estejam especificados.
 - **Parcial:** entrada, parte da tela ou fluxo incompleto.
@@ -30,13 +30,15 @@ Todos os itens abaixo estão **não implementados / não testados** no Armador B
 | LIVE-08 | Roubos e turnovers relacionados | Parcial, ações visíveis | Tipos e vínculos entre os dois lados |
 | LIVE-09 | Bloqueios cometidos e recebidos | Parcial, screenshot 13 | Registro completo e efeito em tentativas |
 | LIVE-10 | Tipos de falta e faltas recebidas | Observado, 02:29–02:33 | Técnicas, banco, exclusão e eventos derivados |
-| LIVE-11 | Substituições e minutos | Observado, 02:08–02:17 | Substituição múltipla, relógio parado e correção |
+| LIVE-11 | Substituições e minutos | Observado, 02:08–02:17; V2 01:10–01:16, troca por seleção no modal | Substituição múltipla, relógio parado e correção |
 | LIVE-12 | Cronômetro, início/pausa | Observado, 02:18–02:21 | Ajuste manual, persistência e fim do relógio |
 | LIVE-13 | Tempos curtos/completos | Parcial, 02:22–02:24 | Duração, cotas e contabilização |
 | LIVE-14 | Períodos e salvamento automático | Observado/parcial, 02:37–02:40 | Fim de jogo e prorrogações |
 | LIVE-15 | Posse/direção de ataque | Parcial, indicador TA → TB | Comando e vínculo com estatísticas de posses |
-| LIVE-16 | Desfazer e editar eventos | Documentado no suporte; não demonstrado | Campos, ordem e reversão de eventos ligados |
-| LIVE-17 | Preferências e ferramentas laterais | Parcial, ícones visíveis | Abrir cada ferramenta/engrenagem |
+| LIVE-16 | Desfazer e editar eventos | Parcial, V2 00:56: comandos de edição/exclusão visíveis | Executar edição e exclusão; campos, ordem e reversão de eventos ligados |
+| LIVE-17 | Preferências e ferramentas laterais | Observado, V2 00:16–00:30 e 01:02–01:06 | Testar efeitos das preferências e editores de equipes |
+| LIVE-18 | Registro de ações da equipe sem atleta | Parcial, V2 01:16–01:30, instrução da área de soltura | Registrar ação e verificar totais e posse |
+| LIVE-19 | Consultas de minutos e faltas, técnicas de banco/treinador | Observado, V2 01:48–01:52 | Registro das técnicas e efeitos nas regras |
 | STAT-01 | Perfil individual, médias e temporada | Observado, 00:18–00:33 e prints | DNP, totais/médias, filtros e temporadas vazias |
 | STAT-02 | Box score e filtros por período | Observado, 00:36–00:49 | Todas as colunas, totais, prorrogação e exportação |
 | STAT-03 | Pontos e posses por período | Observado, 00:48 | Definição exata de posse |
@@ -51,6 +53,8 @@ Todos os itens abaixo estão **não implementados / não testados** no Armador B
 | STAT-12 | Zonas de arremesso | Bloqueado/parcial, screenshot 7 | Limites das zonas, escala de cores e valores |
 | STAT-13 | Tipos de arremesso, turnovers e faltas | Parcial, botões/seletores | Relatórios completos e classificações |
 | STAT-14 | Quintetos, on/off e mais/menos | Documentado/parcial | Telas completas, minutos e fórmulas |
+| STAT-15 | Comparação rápida e arremessos por quarto | Observado/parcial, V2 00:54 e 01:54 | Filtros, fórmulas e zonas desbloqueadas |
+| STAT-16 | Resultados parciais dos últimos 1/3/5/10 minutos | Observado, V2 01:56 | Limites temporais e interação com períodos |
 | OUT-01 | PDF por jogo/temporada/atleta | Parcial, botões visíveis | Gerar e analisar arquivos reais |
 | OUT-02 | CSV e exportação de dados | Documentado/parcial | Formato, colunas, delimitador e opções |
 | OUT-03 | Notas e vídeo associado à partida | Parcial, 00:48 | Editores e associação com lances |
@@ -66,6 +70,8 @@ Todos os itens abaixo estão **não implementados / não testados** no Armador B
 | PLATFORM-02 | iOS, Android, Windows, macOS e idiomas | Documentado; macOS visto | Paridade e diferenças por plataforma |
 | SUITE-01 | Hierarquia de clube e múltiplos membros | Documentado no site | Acesso e fluxos de administração |
 | SUITE-02 | BSA Insights / BSA Compete | Documentado no site | Delimitar produtos abrangidos e observar operação |
+
+Tempos sem indicação de vídeo referem-se à primeira gravação. **V2** refere-se à gravação das 15:18:21, analisada em [documento separado](analise-gravacao-2-2026-09-08.md).
 
 ## Fontes públicas já consultadas
 

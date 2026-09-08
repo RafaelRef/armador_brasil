@@ -4,12 +4,13 @@ Implementação independente orientada à paridade funcional e visual com o Bask
 
 ## Objetivo
 
-Reproduzir as funcionalidades e os fluxos da referência antes de realizar alterações de produto. UX e fidelidade visual são critérios de aceite. CourtIQ não faz parte desta base.
+Reproduzir as funcionalidades e os fluxos conhecidos da referência, com liberdade autorizada para definir os detalhes que não puderam ser observados. Transmissão ao vivo e acompanhamento remoto ficam para uma etapa futura; o registro de estatísticas durante a partida permanece no escopo atual. UX e fidelidade visual são critérios de aceite. CourtIQ não faz parte desta base.
 
 ## Estado atual
 
 **Descoberta em andamento. Nenhuma funcionalidade do clone está implementada ainda.**
 
+- [Decisões de produto e escopo atualizado](docs/decisoes-de-produto.md)
 - [Análise da gravação e especificação de UX](docs/analise-gravacao-2026-09-08.md)
 - [Segunda gravação: configurações e ferramentas do jogo](docs/analise-gravacao-2-2026-09-08.md)
 - [Matriz de paridade e pendências](docs/matriz-paridade.md)
@@ -20,4 +21,4 @@ Código, imagens originais do usuário e credenciais do CourtIQ não foram incor
 
 ## Critério de conclusão
 
-Uma interface parecida, botões sem comportamento ou métricas simuladas não constituem paridade. Cada item deve ter referência, comportamento especificado, implementação e teste. Itens pagos, integrações e plataformas ainda não verificados permanecem pendentes; não são removidos do escopo por conveniência.
+Uma interface parecida, botões sem comportamento ou métricas simuladas não constituem paridade. Cada item deve ter referência, comportamento especificado, implementação e teste. Itens pagos, integrações e plataformas ainda não verificados mantêm sua rastreabilidade. Lacunas podem receber comportamento próprio conforme as decisões de produto. A transmissão ao vivo foi adiada por solicitação expressa do usuário.

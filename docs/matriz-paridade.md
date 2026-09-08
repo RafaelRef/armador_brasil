@@ -62,7 +62,7 @@ Todos os itens abaixo estão **não implementados / não testados** no Armador B
 | CLOUD-01 | Conta e tipos de usuário | Parcial/login necessário, 03:00–03:04 | Cadastro/login e papéis |
 | CLOUD-02 | Backup, restauração e múltiplos dispositivos | Parcial/Premium, perfil | Envio, recuperação, conflitos e isolamento |
 | CLOUD-03 | Registro offline e sincronização | Documentado no site | Teste real sem rede e retomada |
-| CLOUD-04 | Seguidores e transmissão ao vivo | Parcial/login necessário | Publicação e visualização em outro dispositivo |
+| CLOUD-04 | Seguidores da partida e transmissão ao vivo | Adiado pelo usuário em 08/09/2026 | Etapa futura: publicação e acompanhamento remoto |
 | BILL-01 | Premium, assinatura e restauração de compras | Parcial, perfil e aba Premium | Planos, estados, plataformas e falhas |
 | BILL-02 | Código promocional e código desktop | Parcial, perfil | Entradas, validação e vínculo com conta |
 | HELP-01 | Tutoriais, ajuda e contato | Parcial, perfil/ícones | Conteúdo e comportamento de cada entrada |
@@ -73,6 +73,10 @@ Todos os itens abaixo estão **não implementados / não testados** no Armador B
 
 Tempos sem indicação de vídeo referem-se à primeira gravação. **V2** refere-se à gravação das 15:18:21, analisada em [documento separado](analise-gravacao-2-2026-09-08.md).
 
+## Decisão posterior às gravações
+
+Em 08/09/2026 o usuário autorizou definir comportamentos próprios para as lacunas e adiou a transmissão ao vivo. As próximas verificações acima permanecem como registro das incertezas da referência; não exigem novos vídeos para prosseguir. Consulte [decisões de produto](decisoes-de-produto.md). O prefixo LIVE identifica registro durante a partida, que permanece no escopo atual. CLOUD-04 passa à etapa futura.
+
 ## Fontes públicas já consultadas
 
 - [Site e planos](https://basketballstatsassistant.com/pt/)
@@ -81,4 +85,4 @@ Tempos sem indicação de vídeo referem-se à primeira gravação. **V2** refer
 - [Integrate / Insights](https://basketballstatsassistant.com/pt/integrate/)
 - [Digitalize / Compete](https://basketballstatsassistant.com/pt/digitalize/)
 
-A documentação pública amplia o inventário, mas não substitui observar os fluxos autenticados. A exigência de todas as funcionalidades permanece: esta matriz é o início rastreável da descoberta, não um certificado de completude.
+A documentação pública amplia o inventário, mas não substitui observar os fluxos autenticados. O inventário permanece rastreável, com transmissão adiada e liberdade para criar os detalhes não observados. Esta matriz não é um certificado de completude.

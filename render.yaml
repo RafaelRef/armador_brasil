@@ -2,6 +2,7 @@ services:
   - type: web
     name: armador-brasil
     runtime: node
+    plan: free
     rootDir: app
     buildCommand: npm ci --include=dev && npm run build:render
     startCommand: npm start

@@ -49,7 +49,7 @@ try {
   });
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  await page.goto('http://localhost:3000/');
+  await page.goto(process.env.TEST_BASE_URL || 'http://localhost:3000/');
   await page.getByLabel('E-mail', { exact: true }).fill(email);
   await page.locator('input[autocomplete="current-password"]').fill(password);
   await page

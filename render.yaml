@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: armador-brasil
+    runtime: node
+    rootDir: app
+    buildCommand: npm ci --include=dev && npm run build:render
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: 24.11.0
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0

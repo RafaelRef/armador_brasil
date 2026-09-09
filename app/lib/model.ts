@@ -1,4 +1,7 @@
-export type Player = { id: string; name: string; number: string };
+export const PLAYER_POSITIONS = { PG: 'Armador', SG: 'Ala-Armador', SF: 'Ala', PF: 'Ala-Pivô', C: 'Pivô' } as const;
+export type PlayerPosition = keyof typeof PLAYER_POSITIONS;
+export type Player = { id: string; name: string; number: string; position?: PlayerPosition };
+export const positionLabel = (p: Player) => p.position ? PLAYER_POSITIONS[p.position] : 'Não informada';
 export type Team = {
   id: string;
   name: string;
@@ -234,6 +237,8 @@ export function validateTeam(t: Team) {
   const nums = new Set<string>(),
     ids = new Set<string>();
   for (const p of t.players) {
+    if (p.position !== undefined && !Object.hasOwn(PLAYER_POSITIONS, p.position))
+      throw new Error('Posição do jogador inválida.');
     if (
       !p.id ||
       !p.name?.trim() ||

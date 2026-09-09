@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
 import { Modal, Jersey } from './basketball';
-import { uid, validateTeam, type Team } from '@/lib/model';
+import { uid, validateTeam, PLAYER_POSITIONS, type PlayerPosition, type Team } from '@/lib/model';
 export default function TeamEditor({
   team,
   onSave,
@@ -138,6 +138,14 @@ export default function TeamEditor({
                 })
               }
             />
+            <label className="player-position-field">
+              Posição
+              <select aria-label={`Posição do jogador ${i + 1}`} value={p.position ?? ''}
+                onChange={(e) => set({ ...t, players: t.players.map((x) => x.id === p.id ? { ...x, position: (e.target.value || undefined) as PlayerPosition | undefined } : x) })}>
+                <option value="">Não informada</option>
+                {Object.entries(PLAYER_POSITIONS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+              </select>
+            </label>
             <button
               type="button"
               className="icon-button"

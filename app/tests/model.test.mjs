@@ -138,3 +138,15 @@ test('números duplicados são rejeitados', () => {
   d.teams[0].players[1].number = d.teams[0].players[0].number;
   assert.throws(() => validateState(d), /único/);
 });
+
+test('positions remain optional, reject invalid enums and preserve game snapshots', () => {
+  const state = demoState();
+  validateState(state);
+  state.teams[0].players[0].position = 'PG';
+  const game = newGame(...state.teams);
+  state.teams[0].players[0].position = 'C';
+  assert.equal(game.home.players[0].position, 'PG');
+  validateGame(game);
+  state.teams[0].players[0].position = 'invalid';
+  assert.throws(() => validateState(state), /Posição/);
+});

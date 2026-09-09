@@ -30,6 +30,7 @@ import {
 } from './basketball';
 import { StatsPanel } from './stats';
 import {
+  positionLabel,
   box,
   clock,
   elapsed,
@@ -388,7 +389,7 @@ export default function GameDesk({
                       <br />
                       {r.ast} Ast
                     </span>
-                    <b>{p.name}</b>
+                    <b>{p.name}<small className="player-position">{positionLabel(p)}</small></b>
                     <span
                       className={
                         'foul-badge ' +
@@ -517,7 +518,7 @@ export default function GameDesk({
                   }}
                 >
                   <Jersey color={t.color} player={p} small />
-                  <span>{p.name}</span>
+                  <span>{p.name}<small className="player-position">{positionLabel(p)}</small></span>
                 </button>
               ))}
             <button

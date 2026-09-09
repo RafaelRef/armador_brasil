@@ -1,6 +1,6 @@
 # Matriz de paridade
 
-Todos os itens abaixo estão **não implementados / não testados** no Armador Brasil nesta etapa de descoberta. O estado de evidência indica somente o conhecimento da referência.
+Esta tabela mantém o inventário da referência e suas incertezas. O estado atual do código e as verificações estão em [implementação v0.1](implementacao-v0.1.md); a presença de uma tela ainda não representa paridade completa.
 
 - **Observado:** tela ou sequência visível; não implica que todos os casos e variantes estejam especificados.
 - **Parcial:** entrada, parte da tela ou fluxo incompleto.

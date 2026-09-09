@@ -8,7 +8,11 @@ Reproduzir as funcionalidades e os fluxos conhecidos da referência, com liberda
 
 ## Estado atual
 
-**Descoberta em andamento. Nenhuma funcionalidade do clone está implementada ainda.**
+**Primeira versão funcional em validação. A paridade completa com o BSA ainda não foi concluída.**
+
+A aplicação está em `app/`. Login, cadastro e recuperação de senha usam Supabase Auth. Equipes e partidas são vinculadas à conta por `owner_id`, com isolamento no banco. O protótipo D1 foi substituído pelo Supabase, conforme solicitado.
+
+Implementados nesta etapa: equipes/elencos, preparação de jogo, registro e correção de lances, substituições, cronômetro, encerramento/prorrogação configuráveis, estatísticas, CSV e impressão para PDF. Veja [estado da implementação](docs/implementacao-v0.1.md) para as limitações.
 
 - [Decisões de produto e escopo atualizado](docs/decisoes-de-produto.md)
 - [Análise da gravação e especificação de UX](docs/analise-gravacao-2026-09-08.md)

@@ -112,6 +112,23 @@ try {
   await page.getByRole('button', { name: 'Jogadas', exact: true }).click();
   await page.getByRole('heading', { name: 'Jogadas', exact: true }).waitFor();
   await page.getByRole('button', { name: 'Fechar', exact: true }).click();
+  await page.setViewportSize({width:1366,height:768});
+  await page.getByRole('button', {name:'Jogos',exact:true}).click();
+  await page.getByRole('button', {name:'Novo jogo',exact:true}).click();
+  await page.getByRole('button', {name:'Criar campeonato',exact:true}).click();
+  await page.getByLabel('Nome do campeonato', {exact:true}).fill('Liga de teste');
+  await page.getByLabel('Temporada do campeonato', {exact:true}).fill('2026');
+  await page.getByRole('button', {name:'Salvar campeonato',exact:true}).click();
+  assert.match(await page.getByRole('combobox', {name:'Campeonato',exact:true}).innerText(), /Liga de teste/);
+  await page.getByRole('button', {name:'Fechar',exact:true}).click();
+  await page.getByRole('combobox', {name:'Filtrar por campeonato',exact:true}).click();
+  await page.getByRole('option', {name:'Liga de teste · 2026',exact:true}).click();
+  assert.equal(await page.getByRole('button', {name:'RETOMAR',exact:true}).count(), 0);
+  await page.reload();
+  await page.getByRole('tab', {name:'Estatísticas',exact:true}).click();
+  await page.getByRole('combobox', {name:'Filtrar por campeonato',exact:true}).click();
+  await page.getByRole('option', {name:'Liga de teste · 2026',exact:true}).click();
+  await page.getByText(/Totais de 0 partidas finalizadas/).waitFor();
   assert.deepEqual(errors, []);
   console.log(
     'PASS: login UI, desktop sem zoom, substituição por arrasto, mapa preciso, persistência e largura de celular.',

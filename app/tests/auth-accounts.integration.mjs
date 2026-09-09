@@ -48,6 +48,9 @@ try {
   }
   const [a, b] = users;
   const state = demoState();
+  const competition = {id: crypto.randomUUID(), name: 'Liga Paulista', season: '2026', type: 'league'};
+  state.competitions = [competition];
+  state.games[0].competitionId = competition.id;
   const first = await unwrap(
     a.client.rpc('armador_commit_state', {
       document: state,
@@ -59,6 +62,13 @@ try {
   const loaded = await unwrap(a.client.rpc('armador_load_state'));
   assert.equal(loaded.state.teams.length, 2);
   assert.equal(loaded.state.games.length, 1);
+  assert.equal(loaded.state.competitions[0].id, competition.id);
+  assert.equal(loaded.state.games[0].competitionId, competition.id);
+  assert.equal((await unwrap(b.client.from('armador_competitions').select('*'))).length, 0);
+  const duplicate = await a.client.from('armador_competitions').insert({owner_id:a.id, ...competition, id:crypto.randomUUID(), name:' liga   paulista '});
+  assert.equal(duplicate.error?.code, '23505');
+  const crossCompetition = await b.client.from('armador_competitions').insert({owner_id:a.id, ...competition, id:crypto.randomUUID()});
+  assert.equal(crossCompetition.error?.code, '42501');
   const other = await unwrap(b.client.rpc('armador_load_state'));
   assert.equal(other.state, null);
   assert.equal(

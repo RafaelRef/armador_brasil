@@ -1,3 +1,9 @@
+export const COMPETITION_TYPES = { league: 'Liga', cup: 'Copa', tournament: 'Torneio', friendly: 'Amistoso' } as const;
+export type Competition = { id: string; name: string; season: string; type: keyof typeof COMPETITION_TYPES };
+export const competitionKey = (c: Competition) => `${c.name.trim().toLowerCase().replace(/\s+/g, ' ')}|${c.season.trim().toLowerCase()}`;
+export function validateCompetition(c: Competition) {
+  if (!c.id || !c.name?.trim() || c.name.length > 100 || !/^\d{4}(\/\d{2})?$/.test(c.season) || !Object.hasOwn(COMPETITION_TYPES, c.type)) throw new Error('Informe nome, temporada (2026 ou 2026/27) e tipo do campeonato.');
+}
 export const PLAYER_POSITIONS = { PG: 'Armador', SG: 'Ala-Armador', SF: 'Ala', PF: 'Ala-Pivô', C: 'Pivô' } as const;
 export type PlayerPosition = keyof typeof PLAYER_POSITIONS;
 export type Player = { id: string; name: string; number: string; position?: PlayerPosition };
@@ -41,6 +47,7 @@ export type Play = {
   note?: string;
 };
 export type Game = {
+  competitionId?: string;
   id: string;
   home: Team;
   away: Team;
@@ -64,6 +71,7 @@ export type Game = {
   revisions: { at: string; action: string; before: Play }[];
 };
 export type State = {
+  competitions?: Competition[];
   version: 1;
   teams: Team[];
   games: Game[];
@@ -77,6 +85,7 @@ export type State = {
 export const uid = () => crypto.randomUUID();
 export const emptyState = (): State => ({
   version: 1,
+  competitions: [],
   teams: [],
   games: [],
   prefs: {
@@ -380,6 +389,11 @@ export function validateState(s: State) {
     ![5, 6].includes(s.prefs.foulLimit)
   )
     throw new Error('Arquivo de backup incompatível.');
+  const competitions = s.competitions ?? [];
+  if (!Array.isArray(competitions) || competitions.length > 200) throw new Error('Cadastro de campeonatos inválido.');
+  competitions.forEach(validateCompetition);
+  if (new Set(competitions.map(competitionKey)).size !== competitions.length || new Set(competitions.map(c => c.id)).size !== competitions.length) throw new Error('Campeonato já cadastrado nesta temporada.');
+  if (s.games.some(g => g.competitionId && !competitions.some(c => c.id === g.competitionId))) throw new Error('Campeonato do jogo não encontrado.');
   s.teams.forEach(validateTeam);
   s.games.forEach(validateGame);
   if (

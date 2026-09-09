@@ -44,6 +44,7 @@ const canonical = (s: State | null) =>
     ? JSON.stringify(
         {
           ...s,
+          competitions: [...(s.competitions ?? [])].sort((a,b) => a.id.localeCompare(b.id)),
           teams: [...s.teams].sort((a, b) => a.id.localeCompare(b.id)),
           games: [...s.games].sort((a, b) => a.id.localeCompare(b.id)),
         },

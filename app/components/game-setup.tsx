@@ -1,17 +1,25 @@
 'use client';
 import { useState } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
-import { newGame, type Team, type Game } from '@/lib/model';
+import { newGame, uid, validateCompetition, competitionKey, COMPETITION_TYPES, type Competition, type Team, type Game } from '@/lib/model';
 import { Modal, Pick, Jersey } from './basketball';
 export default function GameSetup({
   teams,
+  competitions,
+  onCompetition,
   onSave,
   onClose,
 }: {
   teams: Team[];
+  competitions: Competition[];
+  onCompetition: (c: Competition) => void;
   onSave: (g: Game) => void;
   onClose: () => void;
 }) {
+  const [competitionId, CompetitionId] = useState('');
+  const [creating, Creating] = useState(false);
+  const [competitionName, CompetitionName] = useState('');
+  const [competitionType, CompetitionType] = useState<Competition['type']>('league');
   const [h, H] = useState(teams[0]?.id ?? ''),
     [a, A] = useState(teams[1]?.id ?? ''),
     [format, F] = useState(5),
@@ -51,6 +59,7 @@ export default function GameSetup({
             } else {
               onSave(
                 newGame(home, away, {
+                  competitionId: competitionId || undefined,
                   format,
                   minutes,
                   periods,
@@ -92,6 +101,14 @@ export default function GameSetup({
                 />
               </div>
             </div>
+            <Pick label="Campeonato" value={competitionId || 'none'} onChange={v => { CompetitionId(v === 'none' ? '' : v); const c = competitions.find(c => c.id === v); if (c) S(c.season); }} options={[{value: 'none', label: 'Sem campeonato'}, ...competitions.map(c => ({value: c.id, label: `${c.name} · ${c.season}`}))]} />
+            <button type="button" className="text-button" onClick={() => Creating(!creating)}>Criar campeonato</button>
+            {creating && <fieldset><legend>Novo campeonato</legend>
+              <label>Nome (sem o ano)<input aria-label="Nome do campeonato" value={competitionName} maxLength={100} onChange={e => CompetitionName(e.target.value)} /></label>
+              <label>Temporada<input aria-label="Temporada do campeonato" placeholder="2026 ou 2026/27" value={season} onChange={e => S(e.target.value)} /></label>
+              <Pick label="Tipo do campeonato" value={competitionType} onChange={v => CompetitionType(v as Competition['type'])} options={Object.entries(COMPETITION_TYPES).map(([value,label]) => ({value,label}))} />
+              <button type="button" className="primary" onClick={() => { try { const c: Competition = {id: uid(), name: competitionName.trim().replace(/\s+/g, ' '), season: season.trim(), type: competitionType}; validateCompetition(c); const existing = competitions.find(x => competitionKey(x) === competitionKey(c)); if (existing) { CompetitionId(existing.id); } else { onCompetition(c); CompetitionId(c.id); } Creating(false); E(''); } catch(e) { E((e as Error).message); } }}>Salvar campeonato</button>
+            </fieldset>}
             <div className="form-grid">
               <label>
                 Formato

@@ -150,3 +150,13 @@ test('positions remain optional, reject invalid enums and preserve game snapshot
   state.teams[0].players[0].position = 'invalid';
   assert.throws(() => validateState(state), /Posição/);
 });
+
+test('competitions reject duplicate names and dangling game links', () => {
+  const s = demoState();
+  const c = {id: uid(), name: 'Liga Paulista', season: '2026', type: 'league'};
+  s.competitions = [c]; s.games[0].competitionId = c.id; validateState(s);
+  s.competitions.push({...c, id: uid(), name: ' liga   paulista '});
+  assert.throws(() => validateState(s), /Campeonato já/);
+  s.competitions = [];
+  assert.throws(() => validateState(s), /não encontrado/);
+});

@@ -56,6 +56,7 @@ function Workspace({ session }: { session: Session }) {
     [report, R] = useState<Game | null>(null),
     [teamID, TeamID] = useState(''),
     [season, Season] = useState('all'),
+    [competitionFilter, CompetitionFilter] = useState('all'),
     [issue, I] = useState(''),
     [confirm, C] = useState<{
       title: string;
@@ -135,6 +136,7 @@ function Workspace({ session }: { session: Session }) {
         team &&
         (g.home.id === team.id || g.away.id === team.id) &&
         (season === 'all' || g.season === season) &&
+        (tab !== 'Estatísticas' || competitionFilter === 'all' || (competitionFilter === 'none' ? !g.competitionId : g.competitionId === competitionFilter)) &&
         g.status === 'final',
     ) ?? [];
   const total: Record<string, Stats> = {};
@@ -491,7 +493,8 @@ function Workspace({ session }: { session: Session }) {
                       Cadastre duas equipes para preparar uma partida.
                     </p>
                   )}
-                  {data.games.map((g) => (
+                  <Pick label="Filtrar por campeonato" value={competitionFilter} onChange={CompetitionFilter} options={[{value:'all',label:'Todos os campeonatos'}, {value:'none',label:'Sem campeonato'}, ...(data.competitions ?? []).map(c => ({value:c.id,label:`${c.name} · ${c.season}`}))]} />
+                  {data.games.filter(g => competitionFilter === 'all' || (competitionFilter === 'none' ? !g.competitionId : g.competitionId === competitionFilter)).map((g) => (
                     <GameCard
                       key={g.id}
                       game={g}
@@ -522,6 +525,7 @@ function Workspace({ session }: { session: Session }) {
                 <>
                   <div className="section-heading">
                     <h2>Estatísticas da temporada</h2>
+                    <Pick label="Filtrar por campeonato" value={competitionFilter} onChange={CompetitionFilter} options={[{value:'all',label:'Todos os campeonatos'}, {value:'none',label:'Sem campeonato'}, ...(data.competitions ?? []).map(c => ({value:c.id,label:`${c.name} · ${c.season}`}))]} />
                   </div>
                   {team ? (
                     <>
@@ -646,6 +650,8 @@ function Workspace({ session }: { session: Session }) {
           {modal === 'setup' && (
             <GameSetup
               teams={data.teams}
+              competitions={data.competitions ?? []}
+              onCompetition={c => change(s => ({...s, competitions: [...(s.competitions ?? []), c]}))}
               onClose={() => M('')}
               onSave={(g) => {
                 saveGame(g);

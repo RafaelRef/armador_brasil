@@ -47,6 +47,14 @@ try {
     users[i] = { id: user.id, client };
   }
   const [a, b] = users;
+  const path = `${a.id}/test/logo.png`;
+  const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=', 'base64');
+  try {
+    await unwrap(a.client.storage.from('team-logos').upload(path, png, {contentType:'image/png'}));
+    assert.ok((await unwrap(a.client.storage.from('team-logos').createSignedUrl(path,60))).signedUrl);
+    assert.ok((await b.client.storage.from('team-logos').createSignedUrl(path,60)).error);
+    assert.ok((await b.client.storage.from('team-logos').upload(`${a.id}/test/forbidden.png`,png,{contentType:'image/png'})).error);
+  } finally { await unwrap(a.client.storage.from('team-logos').remove([path])); }
   const state = demoState();
   const competition = {id: crypto.randomUUID(), name: 'Liga Paulista', season: '2026', type: 'league'};
   state.competitions = [competition];

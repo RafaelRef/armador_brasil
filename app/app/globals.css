@@ -1865,3 +1865,5 @@ textarea {
 .player-position-field { grid-column: 1 / -1; display: grid; gap: 4px; font-size: .875rem; }
 .player-position-field select { min-height: 40px; width: 100%; background: white; color: inherit; border: 1px solid #cbd5ce; border-radius: 8px; padding: 6px; }
 .player-edit > .icon-button { grid-column: 3; grid-row: 1; }
+
+.team-logo { width:64px; height:68px; object-fit:contain; flex-shrink:0; }

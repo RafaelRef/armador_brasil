@@ -1,4 +1,5 @@
 'use client';
+import { TeamLogo } from './team-logo';
 import { useState } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { newGame, uid, validateCompetition, competitionKey, COMPETITION_TYPES, type Competition, type Team, type Game } from '@/lib/model';
@@ -82,7 +83,7 @@ export default function GameSetup({
           <>
             <div className="match-setup">
               <div>
-                <Jersey color={home?.color ?? '#444444'} />
+                {home ? <TeamLogo team={home} /> : <Jersey color="#444444" />}
                 <Pick
                   value={h}
                   onChange={H}
@@ -92,7 +93,7 @@ export default function GameSetup({
               </div>
               <b>VS</b>
               <div>
-                <Jersey color={away?.color ?? '#444444'} />
+                {away ? <TeamLogo team={away} /> : <Jersey color="#444444" />}
                 <Pick
                   value={a}
                   onChange={A}

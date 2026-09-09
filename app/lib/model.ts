@@ -9,6 +9,7 @@ export type PlayerPosition = keyof typeof PLAYER_POSITIONS;
 export type Player = { id: string; name: string; number: string; position?: PlayerPosition };
 export const positionLabel = (p: Player) => p.position ? PLAYER_POSITIONS[p.position] : 'Não informada';
 export type Team = {
+  logoPath?: string;
   id: string;
   name: string;
   color: string;

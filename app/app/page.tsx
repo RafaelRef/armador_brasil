@@ -35,6 +35,7 @@ import {
 import { download, csvCell } from '@/lib/export';
 import { Modal, Pick, Jersey, Confirm } from '@/components/basketball';
 import TeamEditor from '@/components/team-editor';
+import { TeamLogo } from '@/components/team-logo';
 import GameSetup from '@/components/game-setup';
 import GameDesk from '@/components/game-desk';
 import { StatsPanel, BoxTable, Metrics } from '@/components/stats';
@@ -428,7 +429,7 @@ function Workspace({ session }: { session: Session }) {
                   {data.teams.map((t) => (
                     <article className="team-card" key={t.id}>
                       <div>
-                        <Jersey color={t.color} />
+                        <TeamLogo team={t} />
                         <h3>{t.name}</h3>
                         <span>{t.players.length} jogadores</span>
                         <span className="pill">{t.season}</span>
@@ -801,7 +802,7 @@ function GameCard({
       </div>
       <div className="match-card">
         <div>
-          <Jersey color={g.home.color} />
+          <TeamLogo team={g.home} />
           <h3>{g.home.name}</h3>
         </div>
         <b>{score(g, g.home.id)}</b>
@@ -811,7 +812,7 @@ function GameCard({
         </div>
         <b>{score(g, g.away.id)}</b>
         <div>
-          <Jersey color={g.away.color} />
+          <TeamLogo team={g.away} />
           <h3>{g.away.name}</h3>
         </div>
       </div>

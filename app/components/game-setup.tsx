@@ -17,6 +17,7 @@ export default function GameSetup({
   onSave: (g: Game) => void;
   onClose: () => void;
 }) {
+  const [related, Related] = useState<Record<string,string[]>>({});
   const [competitionId, CompetitionId] = useState('');
   const [creating, Creating] = useState(false);
   const [competitionName, CompetitionName] = useState('');
@@ -51,15 +52,16 @@ export default function GameSetup({
               throw new Error('Cadastre duas equipes primeiro.');
             if (!step) {
               newGame(home, away, { format, minutes, periods, overtime });
-              L({
-                [h]: home.players.slice(0, format).map((p) => p.id),
-                [a]: away.players.slice(0, format).map((p) => p.id),
-              });
+              Related({[h]: [], [a]: []});
               Step(1);
               E('');
+            } else if (step === 1) {
+              if ([home,away].some(t => (related[t.id]?.length ?? 0) < format)) throw new Error(`Relacione pelo menos ${format} atletas de cada equipe.`);
+              L({[h]: related[h].slice(0,format), [a]: related[a].slice(0,format)});
+              Step(2); E('');
             } else {
               onSave(
-                newGame(home, away, {
+                newGame({...home, players: home.players.filter(p => related[h].includes(p.id))}, {...away, players: away.players.filter(p => related[a].includes(p.id))}, {
                   competitionId: competitionId || undefined,
                   format,
                   minutes,
@@ -202,6 +204,16 @@ export default function GameSetup({
               </p>
             )}
           </>
+        ) : step === 1 ? (
+          <>
+            <p>Selecione quem está relacionada para esta partida. O elenco completo do time não será alterado.</p>
+            <div className="roster-columns">{[home!,away!].map(t => <div key={t.id}>
+              <h3>{t.name} · {related[t.id]?.length ?? 0} relacionadas</h3>
+              <button type="button" className="text-button" onClick={() => Related({...related,[t.id]:t.players.map(p=>p.id)})}>Selecionar todas</button>
+              <button type="button" className="text-button" onClick={() => Related({...related,[t.id]:[]})}>Limpar seleção</button>
+              {t.players.map(p => <label className="roster-check" key={p.id}><Checkbox checked={related[t.id]?.includes(p.id) ?? false} onCheckedChange={checked => Related({...related,[t.id]:checked ? [...(related[t.id] ?? []),p.id] : related[t.id].filter(id=>id!==p.id)})} />#{p.number} {p.name}</label>)}
+            </div>)}</div>
+          </>
         ) : (
           <>
             <p className="muted">
@@ -214,7 +226,7 @@ export default function GameSetup({
                   <h3>
                     {t.name} · {lineup[t.id]?.length}/{format}
                   </h3>
-                  {t.players.map((p) => (
+                  {t.players.filter(p => related[t.id]?.includes(p.id)).map((p) => (
                     <label className="roster-check" key={p.id}>
                       <Checkbox
                         checked={lineup[t.id]?.includes(p.id)}
@@ -243,12 +255,12 @@ export default function GameSetup({
         )}
         <div className="button-row">
           {!!step && (
-            <button className="secondary" type="button" onClick={() => Step(0)}>
+            <button className="secondary" type="button" onClick={() => Step(step - 1)}>
               Voltar
             </button>
           )}
           <button className="primary" type="submit">
-            {step ? 'Iniciar partida' : 'Convocar jogadores'}
+            {step === 2 ? 'Iniciar partida' : step === 1 ? 'Escolher titulares' : 'Relacionar atletas'}
           </button>
         </div>
       </form>

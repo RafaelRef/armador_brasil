@@ -1,4 +1,5 @@
 'use client';
+import VoiceEntry from './voice-entry';
 import { useEffect, useState, useRef } from 'react';
 import {
   Play as PlayIcon,
@@ -534,6 +535,7 @@ export default function GameDesk({
         ))}
       </div>
       <div className="desk-tools">
+        <button disabled={g.status === 'final'} onClick={() => M('voice')}>Voz</button>
         <button onClick={() => M('settings')}>
           <Settings />
           Configuração
@@ -576,6 +578,7 @@ export default function GameDesk({
           Período / finalizar
         </button>
       </div>
+      {modal === 'voice' && <VoiceEntry game={g} onClose={() => M('')} onReview={p => {D(p); M('');}} />}
       {draft && (
         <EventEditor
           game={g}

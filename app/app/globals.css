@@ -1914,3 +1914,11 @@ textarea {
 @media(pointer:coarse) { .action-grid button { min-height:44px; } }
 .desk-top > span { color:var(--ab-muted); }
 .action-grid button:last-child { background:var(--ab-orange); color:white; border-color:var(--ab-orange); }
+
+/* A large bench must not consume the court's grid row. */
+.bench { max-height:132px; overflow-y:auto; align-content:flex-start; padding:4px; }
+@media(min-width:1001px) and (min-height:600px) {
+ .bench { max-height:92px; }
+ .game-desk > .court-wrap { min-height:365px; }
+ .game-desk { height:auto; min-height:calc(100dvh - 92px); }
+}

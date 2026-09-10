@@ -28,6 +28,7 @@ if (error) throw error;
 let browser;
 try {
   const state = demoState();
+  while(state.games[0].home.players.length < 30) { const i=state.games[0].home.players.length; state.games[0].home.players.push({id:crypto.randomUUID(),name:`Atleta ${i}`,number:String(80+i)}); }
   state.games[0].status = 'playing';
   state.games[0].period = 5;
   state.games[0].remaining = 300;

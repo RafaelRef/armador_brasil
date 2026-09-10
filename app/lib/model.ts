@@ -80,6 +80,7 @@ export type State = {
     stopOnFoul: boolean;
     foulLimit: number;
     assistPrompt: boolean;
+    reboundPrompt?: boolean;
     shotPrompt: boolean;
   };
 };

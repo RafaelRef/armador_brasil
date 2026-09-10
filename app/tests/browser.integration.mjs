@@ -96,6 +96,25 @@ try {
   await page.getByRole('tab', { name: 'Jogos', exact: true }).click();
   await page.getByRole('button', { name: 'RETOMAR', exact: true }).click();
   await page.locator('.court-player').filter({ hasText: 'Andre' }).waitFor();
+  await page.setViewportSize({width:844,height:390});
+  const landscapeCourt=await page.locator('.court-wrap').boundingBox();
+  for(const card of await page.locator('.court-player').all()) {const b=await card.boundingBox();assert.ok(b.y>=landscapeCourt.y && b.y+b.height<=landscapeCourt.y+landscapeCourt.height+2,'Atleta fora da quadra horizontal');}
+  const board=await page.locator('.scoreboard').boundingBox(), actions=await page.locator('.action-console').boundingBox();
+  assert.ok(board.y+board.height<=actions.y,'Placar sobreposto às ações no celular horizontal');
+  await page.screenshot({path:'/tmp/armador-landscape.png',fullPage:true});
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true});
+  const source = await page.getByRole('button',{name:'2 ×',exact:true}).boundingBox();
+  const target = await page.locator('.court-player').filter({hasText:'Kevin'}).boundingBox();
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:source.x+source.width/2,y:source.y+source.height/2}]});
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:target.x+target.width/2,y:target.y+target.height/2}]});
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+  await page.getByRole('button',{name:'Registrar lance',exact:true}).waitFor();
+  assert.match(await page.getByRole('combobox',{name:'Jogador',exact:true}).innerText(),/Kevin/);
+  await page.getByRole('button',{name:'Registrar lance',exact:true}).click();
+  await page.getByRole('heading',{name:'Quem pegou o rebote?',exact:true}).waitFor();
+  await page.getByRole('button',{name:'Não registrar rebote',exact:true}).click();
+  await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:false});
   await page.setViewportSize({ width: 390, height: 844 });
   const scoreboard = await page.locator('.scoreboard').boundingBox();
   const players = await page.locator('.court-player').all();

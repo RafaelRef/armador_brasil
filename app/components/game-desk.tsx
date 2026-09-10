@@ -86,6 +86,7 @@ export default function GameDesk({
     [undo, U] = useState<Play[] | null>(null),
     [out, Out] = useState(''),
     [subteam, ST] = useState(g.home.id);
+  const [reboundShot, ReboundShot] = useState<Play | null>(null);
   const touch = useRef<{ x: number; y: number } | null>(null);
   const suppressClick = useRef(false);
   const rows = box(g, 0, now),
@@ -167,6 +168,7 @@ export default function GameDesk({
       U(g.events);
       save(next);
       D(null);
+      if (!exists && e.kind === 'shot' && !e.made && !e.free && prefs.reboundPrompt !== false) ReboundShot(e);
     } catch (e) {
       E((e as Error).message);
     }
@@ -429,7 +431,10 @@ export default function GameDesk({
                     String(i),
                   )
                 }
-                onClick={() => record(a[1], a[2], a[3], a[4])}
+                onPointerDown={e => { if(e.pointerType !== 'touch') return; touch.current={x:e.clientX,y:e.clientY}; e.currentTarget.setPointerCapture(e.pointerId); }}
+                onPointerCancel={() => {touch.current=null;}}
+                onPointerUp={e => { const start=touch.current;touch.current=null;if(e.pointerType!=='touch'||!start||Math.hypot(e.clientX-start.x,e.clientY-start.y)<8)return; suppressClick.current=true; const target=document.elementFromPoint(e.clientX,e.clientY)?.closest<HTMLElement>('.court-player');if(target?.dataset.player)record(a[1],a[2],a[3],a[4],target.dataset.player); }}
+                onClick={() => {if(suppressClick.current){suppressClick.current=false;return;}record(a[1], a[2], a[3], a[4]);}}
                 className={
                   a[1] === 'shot' ? (a[3] ? 'made-action' : 'miss-action') : ''
                 }
@@ -578,7 +583,17 @@ export default function GameDesk({
           Período / finalizar
         </button>
       </div>
-      {modal === 'voice' && <VoiceEntry game={g} onClose={() => M('')} onReview={p => {D(p); M('');}} />}
+      {reboundShot && <Modal title="Quem pegou o rebote?" onClose={() => ReboundShot(null)}>
+        <div className="rebound-options">{[g.home,g.away].map(t => <section key={t.id}><h3>{t.name}</h3>
+          <div className="select-players">{[...t.players.filter(p => g.lineup[t.id].includes(p.id)).map(p => ({id:p.id,name:`#${p.number} ${p.name}`})),{id:t.id,name:'Equipe'}].map(p => <button key={p.id} onClick={() => {
+            if(g.status !== 'playing' || !g.events.some(e => e.id===reboundShot.id)) {ReboundShot(null);return;}
+            commit({id:uid(),kind:t.id===reboundShot.team?'oreb':'dreb',team:t.id,player:p.id,period:reboundShot.period,elapsed:reboundShot.elapsed});
+            ReboundShot(null);
+          }}>{p.name}</button>)}</div>
+        </section>)}</div>
+        <button className="secondary" onClick={() => ReboundShot(null)}>Não registrar rebote</button>
+      </Modal>}
+      {modal === 'voice'  && <VoiceEntry game={g} onClose={() => M('')} onReview={p => {D(p); M('');}} />}
       {draft && (
         <EventEditor
           game={g}
@@ -818,6 +833,7 @@ export default function GameDesk({
             onChange={(v) => onPrefs({ ...prefs, stopOnFoul: v })}
             label="Pausar ao marcar falta ou perda"
           />
+          <Toggle label="Perguntar quem pegou o rebote após arremesso errado" checked={prefs.reboundPrompt !== false} onChange={v => onPrefs({...prefs,reboundPrompt:v})} />
           <Toggle
             checked={prefs.assistPrompt}
             onChange={(v) => onPrefs({ ...prefs, assistPrompt: v })}

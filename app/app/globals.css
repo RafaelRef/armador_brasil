@@ -1922,3 +1922,46 @@ textarea {
  .game-desk > .court-wrap { min-height:365px; }
  .game-desk { height:auto; min-height:calc(100dvh - 92px); }
 }
+/* Phone landscape: retain the court layout within a short viewport. */
+@media (orientation:landscape) and (max-height:500px) and (max-width:1100px) {
+ body:has(.game-desk) .app-header { display:none; }
+ body:has(.game-desk) .save-status { padding:2px 12px; font-size:11px; }
+ .game-desk { padding:4px max(6px,env(safe-area-inset-right)) 4px max(6px,env(safe-area-inset-left)); min-height:0; }
+ .desk-top { margin-bottom:3px; }
+ .desk-top > span { display:none; }
+ .desk-top button { padding:4px 8px; font-size:12px; }
+ .court-wrap { min-height:290px; height:calc(100dvh - 112px); aspect-ratio:auto; }
+ .team-players { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:repeat(3,1fr); width:29%; padding:4px; gap:4px; }
+ .court-player { display:grid; grid-template-columns:30px 1fr; padding:3px; max-width:none; }
+ .court-player .jersey,.court-player .jersey svg { width:30px; height:36px; }
+ .court-player .jersey strong { top:13px; font-size:13px; }
+ .court-player > b { font-size:12px; }
+ .court-player .player-position { display:none; }
+ .player-mini-stats { font-size:11px; line-height:1.15; }
+ .foul-badge { width:16px; height:16px; line-height:16px; font-size:11px; left:-3px; bottom:17px; }
+ .scoreboard { left:30%; width:40%; padding:4px 8px; border-width:2px; }
+ .score-values { margin:2px 0; gap:4px; }
+ .digital,.digital.time { font-size:20px; padding:0; }
+ .clock-controls { margin-top:2px; gap:12px; }
+ .score-names > span { font-size:11px; }
+ .action-console { left:30%; width:40%; padding:4px; bottom:4px; }
+ .action-console > p { font-size:12px; margin-bottom:3px; }
+ .action-console > p span { display:none; }
+ .action-grid { grid-template-columns:repeat(4,1fr); gap:3px; }
+ .action-grid button { min-height:34px; font-size:13px; }
+ .bench-row { margin:4px 0; gap:10px; }
+ .bench { flex-wrap:nowrap; max-height:54px; overflow:auto; max-width:49%; gap:4px; }
+ .bench > * { flex-shrink:0; }
+ .bench-player .player-position { display:none; }
+ .bench-player .jersey,.bench-player .jersey svg { height:28px; }
+ .bench-player .jersey strong { top:10px; font-size:12px; }
+ .desk-tools { margin:4px 0; flex-wrap:nowrap; justify-content:flex-start; overflow-x:auto; }
+ .desk-tools button { flex-shrink:0; padding:6px; font-size:12px; }
+ .app-modal { max-height:96dvh; border-radius:12px!important; }
+ .modal-head { padding:8px 12px; }
+ .modal-head [data-slot='dialog-title'] { font-size:17px; }
+}
+.action-grid button { touch-action:none; }
+@media (orientation:landscape) and (max-height:500px) and (max-width:1100px) {
+ .court-wrap { min-height:340px; }
+}
